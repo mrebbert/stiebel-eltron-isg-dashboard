@@ -1,0 +1,380 @@
+views:
+  - title: Overview
+    icon: mdi:heat-pump-outline
+    type: masonry
+    cards:
+      - type: grid
+        square: false
+        title: Pumpen
+        columns: 1
+        cards:
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_buffer_1_charging_pump
+            name: Pufferladepumpe 1
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_heat_pump_1_on
+            name: Heizpumpe 1
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_heating_circuit_1_pump
+            name: Heizkreispumpe 1
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_pump_hk1
+            name: HK1-Pumpe
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_dhw_charging_pump
+            name: WW-Ladepumpe
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_compressor
+            name: Kompressor
+      - type: grid
+        square: false
+        title: Programme
+        columns: 1
+        cards:
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_evaporator_defrost
+            name: Verdampferabtauung
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_heat_up_program
+            name: Aufheizprogramm
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_is_heating
+            name: Aufheizen
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_is_cooling
+            name: Kühlen
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_is_heating_boiler
+            name: Kessel heizen
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_is_in_summer_mode
+            name: Sommermodus
+      - type: grid
+        title: Fehlerstatus
+        square: false
+        columns: 1
+        cards:
+          - type: tile
+            entity: binary_sensor.stiebel_eltron_isg_error_status
+            name: Fehlerstatus
+          - type: tile
+            entity: sensor.stiebel_eltron_isg_active_error
+            name: Aktive Fehler
+      - type: vertical-stack
+        title: Verbrauch
+        cards:
+          - type: statistics-graph
+            title: Stromverbrauch
+            days_to_show: 5
+            chart_type: bar
+            stat_types: change
+            period: day
+            fit_y_data: true
+            entities:
+              - entity: sensor.stiebel_eltron_isg_consumed_heating
+                name: Heizen
+              - entity: sensor.stiebel_eltron_isg_consumed_water_heating
+                name: Warmwasser
+          - type: statistics-graph
+            title: Tagesverlauf
+            days_to_show: 1
+            chart_type: line
+            stat_types: state
+            period: 5minute
+            fit_y_data: true
+            entities:
+              - entity: sensor.stiebel_eltron_isg_consumed_heating_today
+                name: Heizen
+              - entity: sensor.stiebel_eltron_isg_consumed_water_heating_today
+                name: Warmwasser
+      - type: vertical-stack
+        title: Produktion
+        cards:
+          - type: statistics-graph
+            title: Wärmeproduktion
+            days_to_show: 5
+            chart_type: bar
+            stat_types: change
+            period: day
+            fit_y_data: true
+            entities:
+              - entity: sensor.stiebel_eltron_isg_produced_heating
+                name: Heizen
+              - entity: sensor.stiebel_eltron_isg_produced_water_heating
+                name: Warmwasser
+          - type: statistics-graph
+            title: Tagesverlauf
+            days_to_show: 1
+            chart_type: line
+            stat_types: state
+            period: 5minute
+            fit_y_data: true
+            entities:
+              - entity: sensor.stiebel_eltron_isg_produced_heating_today
+                name: Heizen
+              - entity: sensor.stiebel_eltron_isg_produced_water_heating_today
+                name: Warmwasser
+      - type: vertical-stack
+        cards:
+          - type: vertical-stack
+            title: Vor-/Rücklauftemperatur
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: gauge
+                    name: Vorlauf
+                    min: 0
+                    max: 90
+                    segments:
+                      - from: 0
+                        color: '#4269d0'
+                      - from: 45
+                        color: '#f4bd4a'
+                      - from: 57
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_flow_temperature_wp1
+                  - type: gauge
+                    name: Rücklauf
+                    min: 0
+                    max: 90
+                    segments:
+                      - from: 0
+                        color: '#4269d0'
+                      - from: 45
+                        color: '#f4bd4a'
+                      - from: 57
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_return_temperature_wp1
+              - type: statistics-graph
+                title: Verlauf
+                chart_type: line
+                days_to_show: 5
+                period: hour
+                stat_types: mean
+                fit_y_data: true
+                entities:
+                  - name: Vorlauf
+                    entity: sensor.stiebel_eltron_isg_flow_temperature_wp1
+                  - name: Rücklauf
+                    entity: sensor.stiebel_eltron_isg_return_temperature_wp1
+                  - entity: sensor.stiebel_eltron_isg_outdoor_temperature
+                    name: Außen
+          - type: vertical-stack
+            title: HK1-Temperatur
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: gauge
+                    name: Aktuell
+                    min: 0
+                    max: 90
+                    segments:
+                      - from: 0
+                        color: '#4269d0'
+                      - from: 45
+                        color: '#f4bd4a'
+                      - from: 57
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_actual_temperature_hk_1
+                  - type: gauge
+                    name: Zieltemperatur
+                    min: 0
+                    max: 90
+                    segments:
+                      - from: 0
+                        color: '#4269d0'
+                      - from: 45
+                        color: '#f4bd4a'
+                      - from: 57
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_target_temperature_hk_1
+              - type: statistics-graph
+                title: Verlauf
+                chart_type: line
+                days_to_show: 5
+                period: hour
+                fit_y_data: true
+                entities:
+                  - entity: sensor.stiebel_eltron_isg_target_temperature_hk_1
+                    name: Ziel
+                  - entity: sensor.stiebel_eltron_isg_actual_temperature_hk_1
+                    name: Aktuell
+                  - entity: sensor.stiebel_eltron_isg_outdoor_temperature
+                    name: Außen
+      - type: vertical-stack
+        cards:
+          - type: vertical-stack
+            title: Puffertemperatur
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: gauge
+                    name: Aktuell
+                    min: 0
+                    max: 90
+                    segments:
+                      - from: 0
+                        color: '#4269d0'
+                      - from: 45
+                        color: '#f4bd4a'
+                      - from: 57
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_actual_temperature_buffer
+                  - type: gauge
+                    name: Zieltemperatur
+                    min: 0
+                    max: 90
+                    segments:
+                      - from: 0
+                        color: '#4269d0'
+                      - from: 45
+                        color: '#f4bd4a'
+                      - from: 57
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_target_temperature_buffer
+              - type: statistics-graph
+                title: Verlauf
+                chart_type: line
+                days_to_show: 5
+                period: hour
+                fit_y_data: true
+                entities:
+                  - entity: sensor.stiebel_eltron_isg_target_temperature_buffer
+                    name: Ziel
+                  - entity: sensor.stiebel_eltron_isg_actual_temperature_buffer
+                    name: Aktuell
+                  - entity: sensor.stiebel_eltron_isg_outdoor_temperature
+                    name: Außen
+          - type: vertical-stack
+            title: Wasser-Temperatur
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: gauge
+                    name: Aktuell
+                    min: 10
+                    max: 65
+                    segments:
+                      - from: 10
+                        color: '#4269d0'
+                      - from: 35
+                        color: '#f4bd4a'
+                      - from: 55
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_actual_temperature_water
+                  - type: gauge
+                    name: Zieltemperatur
+                    min: 10
+                    max: 65
+                    segments:
+                      - from: 10
+                        color: '#4269d0'
+                      - from: 35
+                        color: '#f4bd4a'
+                      - from: 55
+                        color: '#db4437'
+                    entity: sensor.stiebel_eltron_isg_target_temperature_water
+              - type: statistics-graph
+                title: Verlauf
+                chart_type: line
+                days_to_show: 5
+                period: hour
+                fit_y_data: true
+                entities:
+                  - entity: sensor.stiebel_eltron_isg_target_temperature_water
+                    name: Ziel
+                  - entity: sensor.stiebel_eltron_isg_actual_temperature_water
+                    name: Aktuell
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            title: Druck WP1
+            cards:
+              - type: gauge
+                name: Hochdruck
+                min: 0
+                max: 50
+                segments:
+                  - from: 0
+                    color: '#4269d0'
+                  - from: 15
+                    color: '#f4bd4a'
+                  - from: 45
+                    color: '#db4437'
+                entity: sensor.stiebel_eltron_isg_high_pressure_wp1
+              - type: gauge
+                name: Niederdruck
+                entity: sensor.stiebel_eltron_isg_low_pressure_wp1
+                min: 0
+                max: 25
+                segments:
+                  - from: 0
+                    color: '#4269d0'
+                  - from: 10
+                    color: '#f4bd4a'
+                  - from: 40
+                    color: '#db4437'
+          - type: horizontal-stack
+            title: Heißgastemperatur
+            cards:
+              - type: gauge
+                name: Heißgastemperatur
+                min: 20
+                max: 120
+                segments: 
+                  - from: 20
+                    color: '#4269d0'
+                  - from: 65
+                    color: '#f4bd4a'
+                  - from: 100
+                    color: '#db4437'  
+                entity: sensor.stiebel_eltron_isg_hot_gas_temperature_wp1
+  - title: Einstellungen
+    icon: mdi:heat-pump
+    type: masonry
+    cards:
+      - type: thermostat
+        entity: climate.stiebel_eltron_isg_heat_circuit_1
+        name: Heizkreislauf 1 - Komfort-Temperatur
+        features:
+          - type: climate-preset-modes
+          - type: climate-hvac-modes
+      - type: entities
+        title: Betrieb
+        entities:
+          - entity: select.stiebel_eltron_isg_operation_mode
+            name: Betriebsart
+      - type: entities
+        title: Heizen
+        entities:
+          - entity: number.stiebel_eltron_isg_heating_curve_rise_hk1
+            name: Steigung Heizkurve
+          - entity: number.stiebel_eltron_isg_comfort_temperature_target_hk1
+            name: Komfort-Temperatur
+          - entity: number.stiebel_eltron_isg_eco_temperature_target_hk1
+            name: Eco-Temperatur
+          - entity: number.stiebel_eltron_isg_dual_mode_temperature_hzg
+            name: Dual Mode-Temperatur
+      - type: entities
+        title: Warmwasser
+        entities:
+          - entity: switch.stiebel_eltron_isg_circulation_pump
+            name: Zirkulationspumpe
+          - entity: number.stiebel_eltron_isg_comfort_water_temperature_target
+            name: Komfort-Temperatur
+          - entity: number.stiebel_eltron_isg_eco_water_temperature_target
+            name: Eco-Temperatur
+          - entity: number.stiebel_eltron_isg_dual_mode_temperature_ww
+            name: Dual Mode-Temperatur
+      - type: entities
+        title: SG Ready
+        show_header_toggle: false
+        entities:
+          - entity: sensor.stiebel_eltron_isg_sg_ready_state
+            name: Status
+          - entity: switch.stiebel_eltron_isg_sg_ready_active
+            name: SG Ready aktiviert
+          - entity: switch.stiebel_eltron_isg_sg_ready_input_1
+            name: SG Ready Eingang 1
+          - entity: switch.stiebel_eltron_isg_sg_ready_input_2
+            name: SG Ready Eingang 2
