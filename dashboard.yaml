@@ -25,7 +25,7 @@ views:
             name: WW-Ladepumpe
           - type: tile
             entity: binary_sensor.stiebel_eltron_isg_compressor
-            name: Kompressor
+            name: Verdichter
       - type: grid
         square: false
         title: Programme
