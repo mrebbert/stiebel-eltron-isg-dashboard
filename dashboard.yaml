@@ -149,7 +149,7 @@ views:
                 title: Verlauf
                 chart_type: line
                 days_to_show: 5
-                period: hour
+                period: 5minute
                 stat_types: mean
                 fit_y_data: true
                 entities:
@@ -192,7 +192,8 @@ views:
                 title: Verlauf
                 chart_type: line
                 days_to_show: 5
-                period: hour
+                period: 5minute
+                stat_types: mean
                 fit_y_data: true
                 entities:
                   - entity: sensor.stiebel_eltron_isg_target_temperature_hk_1
@@ -236,7 +237,8 @@ views:
                 title: Verlauf
                 chart_type: line
                 days_to_show: 5
-                period: hour
+                period: 5minute
+                stat_types: mean
                 fit_y_data: true
                 entities:
                   - entity: sensor.stiebel_eltron_isg_target_temperature_buffer
@@ -278,7 +280,8 @@ views:
                 title: Verlauf
                 chart_type: line
                 days_to_show: 5
-                period: hour
+                period: 5minute
+                stat_types: mean
                 fit_y_data: true
                 entities:
                   - entity: sensor.stiebel_eltron_isg_target_temperature_water
@@ -287,6 +290,60 @@ views:
                     name: Aktuell
       - type: vertical-stack
         cards:
+          - type: horizontal-stack
+            title: COP
+            cards:
+              - type: gauge
+                name: Heute
+                min: 0
+                max: 4
+                segments:
+                  - from: 0
+                    color: '#db4437'
+                  - from: 2.5
+                    color: '#f4bd4a'
+                  - from: 3.5
+                    color: '#4269d0'
+                entity: sensor.heatpump_cop_today
+              - type: gauge
+                name: Total
+                min: 0
+                max: 4
+                segments:
+                  - from: 0
+                    color: '#db4437'
+                  - from: 2.5
+                    color: '#f4bd4a'
+                  - from: 3.5
+                    color: '#4269d0'
+                entity: sensor.heatpump_cop_total
+          - type: horizontal-stack
+            title: Taktung
+            cards:
+              - type: gauge
+                name: heute
+                min: 0
+                max: 50
+                segments:
+                  - from: 0
+                    color: '#4269d0'
+                  - from: 10
+                    color: '#f4bd4a'
+                  - from: 16
+                    color: '#db4437'
+                entity: sensor.compressor_on_today
+              - type: gauge
+                name: gestern
+                min: 0
+                max: 50
+                segments:
+                  - from: 0
+                    color: '#4269d0'
+                  - from: 10
+                    color: '#f4bd4a'
+                  - from: 16
+                    color: '#db4437'
+                entity: sensor.compressor_on_yesterday
           - type: horizontal-stack
             title: Druck WP1
             cards:
@@ -321,13 +378,13 @@ views:
                 name: Heißgastemperatur
                 min: 20
                 max: 120
-                segments: 
+                segments:
                   - from: 20
                     color: '#4269d0'
                   - from: 65
                     color: '#f4bd4a'
                   - from: 100
-                    color: '#db4437'  
+                    color: '#db4437'
                 entity: sensor.stiebel_eltron_isg_hot_gas_temperature_wp1
   - title: Einstellungen
     icon: mdi:heat-pump
