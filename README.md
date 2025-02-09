@@ -19,6 +19,25 @@ The following templates are needed:
       {{ (states('sensor.stiebel_eltron_isg_produced_heating_total')|float / 
         states('sensor.stiebel_eltron_isg_consumed_heating_total')|float) | round(1) }}
 ```
+And two additional sensors:
+```
+  - platform: history_stats
+    name: Compressor ON today
+    entity_id: binary_sensor.stiebel_eltron_isg_compressor
+    state: "on"
+    type: count
+    start: "{{ today_at() }}"
+    end: "{{ now() }}"
+
+  - platform: history_stats
+    name: Compressor ON yesterday
+    entity_id: binary_sensor.stiebel_eltron_isg_compressor
+    state: "on"
+    type: count
+    end: "{{ today_at('00:00') }}"
+    duration:
+      hours: 24
+```
 
 ![Overview](https://github.com/mrebbert/stiebel-eltron-isg-dashboard/blob/main/overview.jpeg)
 ![Preferences](https://github.com/mrebbert/stiebel-eltron-isg-dashboard/blob/main/preferences.png)
